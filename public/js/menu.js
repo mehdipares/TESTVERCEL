@@ -1,3 +1,5 @@
+const API_URL = process.env.API_URL;
+
 document.addEventListener("DOMContentLoaded", async () => {
     console.log("✅ menu.js chargé avec succès.");
 
@@ -50,7 +52,7 @@ document.addEventListener("DOMContentLoaded", async () => {
     // 🔹 Stocker le token après connexion
     async function storeTokenAfterLogin() {
         try {
-            const response = await fetch("/login", {
+            const response = await fetch(`${API_URL}/users/login`, {
                 method: "POST",
                 credentials: "include",
                 headers: { "Content-Type": "application/json" },
@@ -126,7 +128,7 @@ document.addEventListener("DOMContentLoaded", async () => {
                 return;
             }
 
-            const response = await fetch("/api/reservations", {
+            const response = await fetch(`${API_URL}/reservations`, {
                 method: "GET",
                 credentials: "include", // ✅ Envoie les cookies
                 headers: {

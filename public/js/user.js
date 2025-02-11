@@ -1,10 +1,10 @@
 console.log('users.js chargé avec succès');
-const API_URL = 'http://localhost:3000/api/users';
+const API_URL = process.env.API_URL;
 
 // Charger les utilisateurs existants
 window.loadUsers = async function () {
     try {
-        const response = await fetch(API_URL, {
+        const response = await fetch(`${API_URL}/users`, {
             credentials: "include",
             headers: { 'Authorization': localStorage.getItem('token') },
         });
@@ -46,7 +46,7 @@ document.getElementById('addUserForm').addEventListener('submit', async (event) 
     const password = document.getElementById('password').value;
 
     try {
-        const response = await fetch(`${API_URL}/add`, {
+        const response = await fetch(`${API_URL}/users/add`, {
             method: 'POST',
             credentials: "include",
             headers: {

@@ -1,5 +1,5 @@
 console.log("✅ reservations.js chargé avec succès");
-const API_URL = "http://localhost:3000/api/reservations";
+const API_URL = process.env.API_URL
 
 console.log("🔍 Token depuis localStorage sur la page réservations :", localStorage.getItem("token"));
 console.log("🔍 Cookies disponibles :", document.cookie);
@@ -15,7 +15,7 @@ window.loadReservations = async function () {
             return;
         }
 
-        const response = await fetch(API_URL, {
+        const response = await fetch(`${API_URL}/reservations`, {
             credentials: "include",
             headers: {
                 "Authorization": token,
@@ -111,7 +111,7 @@ window.editReservation = async function (event, reservationId) {
     };
 
     try {
-        const response = await fetch(`${API_URL}/${reservationId}`, {
+        const response = await fetch(`${API_URL}/reservations/${reservationId}`, {
             method: "PUT",
             credentials: "include",
             headers: {

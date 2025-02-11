@@ -12,6 +12,7 @@ const mongodb = require('./db/mongo');
 const { checkJWT } = require('./scripts/auth');
 const jwt = require('jsonwebtoken');
 const User = require('./models/user'); // Import du modèle utilisateur
+const API_URL = process.env.API_URL;
 
 // Initialisation de la connexion MongoDB
 mongodb.initClientDbConnection();
@@ -125,7 +126,7 @@ app.post('/login', async (req, res) => {
   const { email, password } = req.body;
 
   try {
-    const response = await axios.post('https://testvercel-hu9e-hv3ol6tjw-dims-projects-645dd5d5.vercel.app/api/users/authenticate', 
+    const response = await axios.post(`${API_URL}/users/authenticate`, 
       { email, password },
       { withCredentials: true }  //  Ajout pour gérer les cookies
   );
@@ -166,7 +167,7 @@ app.get('/catways', checkJWT, async (req, res) => {
 
     const token = req.cookies.authToken || req.headers.authorization;
 
-    const response = await axios.get('https://testvercel-hu9e-hv3ol6tjw-dims-projects-645dd5d5.vercel.app/api/catways', {
+    const response = await axios.get(`${API_URL}/catways`, {
       headers: { Authorization: token },
       withCredentials: true  //  Permet d'envoyer les cookies en production
   });
@@ -196,7 +197,7 @@ app.get('/reservations', checkJWT, async (req, res) => {
       return res.status(401).render('500', { title: 'Erreur Serveur', message: 'Authentification requise.' });
     }
 
-    const response = await axios.get('https://testvercel-hu9e-hv3ol6tjw-dims-projects-645dd5d5.vercel.app/api/reservations', {
+    const response = await axios.get(`${API_URL}/reservations`, {
       headers: { Authorization: tokenFromCookie },
       withCredentials: true  // ✅ Permet d'envoyer les cookies en production
   });
@@ -225,7 +226,7 @@ app.use((err, req, res, next) => {
   console.error('❌ Erreur non gérée :', err.stack || err.message);
   res.status(500).render('500', { title: 'Erreur serveur', message: err.message });
 });
-
+s
 app.get('/get-token', (req, res) => {
   const token = req.cookies.authToken || null;
   res.json({ token });

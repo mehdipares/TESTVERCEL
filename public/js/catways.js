@@ -1,5 +1,5 @@
 console.log('catways.js chargé avec succès');
-const API_URL = 'http://localhost:3000/api/catways';
+const API_URL = process.env.API_URL;
 
 // Ajouter un nouveau catway
 window.addCatway = async function (event) {
@@ -9,7 +9,7 @@ window.addCatway = async function (event) {
     const catwayState = document.getElementById('catwayState').value;
 
     try {
-        const response = await fetch(API_URL, {
+        const response = await fetch(`${API_URL}/catways`, {
             method: 'POST',
             credentials: "include",
             headers: {
