@@ -40,13 +40,12 @@ app.use((err, req, res, next) => {
 });
 
 // Middleware pour gérer les requêtes CORS
-app.use(
-  cors({
-    exposedHeaders: ['Authorization'],
-    origin: '*',
-    credentials: true // ✅ Permet l'envoi des cookies avec les requêtes
-  })
-);
+app.use(cors({
+  exposedHeaders: ['Authorization'],
+  origin: 'https://testvercel-hu9e-hv3ol6tjw-dims-projects-645dd5d5.vercel.app', //  URL du frontend
+  credentials: true
+}));
+
 
 // Autres middlewares
 app.use(logger('dev'));
@@ -59,8 +58,8 @@ app.use((req, res, next) => {
   if (req.cookies.authToken) {
     res.cookie("authToken", req.cookies.authToken, {
       httpOnly: true,
-      secure: false, // 🔹 Mets `true` si tu es en HTTPS
-      sameSite: "lax",
+      secure: true, // 🔹 Mets `true` si tu es en HTTPS
+      sameSite: "none",
     });
   } else {
     console.log("⚠️ Aucun cookie trouvé !");
@@ -126,7 +125,11 @@ app.post('/login', async (req, res) => {
   const { email, password } = req.body;
 
   try {
-    const response = await axios.post('http://localhost:3000/api/users/authenticate', { email, password });
+    const response = await axios.post('https://testvercel-hu9e-hv3ol6tjw-dims-projects-645dd5d5.vercel.app/api/users/authenticate', 
+      { email, password },
+      { withCredentials: true }  //  Ajout pour gérer les cookies
+  );
+  
     const token = response.data.token;
 
     res.cookie('authToken', `Bearer ${token}`, {
@@ -163,9 +166,11 @@ app.get('/catways', checkJWT, async (req, res) => {
 
     const token = req.cookies.authToken || req.headers.authorization;
 
-    const response = await axios.get('http://localhost:3000/api/catways', {
+    const response = await axios.get('https://testvercel-hu9e-hv3ol6tjw-dims-projects-645dd5d5.vercel.app/api/catways', {
       headers: { Authorization: token },
-    });
+      withCredentials: true  //  Permet d'envoyer les cookies en production
+  });
+  
 
     console.log('✅ Catways récupérés :', response.data);
     res.render('catways', { title: 'Liste des Catways', catways: response.data });
@@ -191,9 +196,11 @@ app.get('/reservations', checkJWT, async (req, res) => {
       return res.status(401).render('500', { title: 'Erreur Serveur', message: 'Authentification requise.' });
     }
 
-    const response = await axios.get('http://localhost:3000/api/reservations', {
+    const response = await axios.get('https://testvercel-hu9e-hv3ol6tjw-dims-projects-645dd5d5.vercel.app/api/reservations', {
       headers: { Authorization: tokenFromCookie },
-    });
+      withCredentials: true  // ✅ Permet d'envoyer les cookies en production
+  });
+  
 
     console.log('✅ Réservations récupérées :', response.data);
 

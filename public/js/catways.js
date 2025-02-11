@@ -11,6 +11,7 @@ window.addCatway = async function (event) {
     try {
         const response = await fetch(API_URL, {
             method: 'POST',
+            credentials: "include",
             headers: {
                 'Content-Type': 'application/json',
                 Authorization: localStorage.getItem('token'),
@@ -36,6 +37,7 @@ window.deleteCatway = async function (catwayNumber) {
         try {
             const response = await fetch(`${API_URL}/${catwayNumber}`, {
                 method: 'DELETE',
+                credentials: "include",
                 headers: {
                     Authorization: localStorage.getItem('token'),
                 },
@@ -68,6 +70,7 @@ window.updateCatway = async function (event, catwayNumber) {
     try {
         const response = await fetch(`${API_URL}/${catwayNumber}`, {
             method: 'PATCH',
+            credentials: "include",
             headers: {
                 'Content-Type': 'application/json',
                 Authorization: localStorage.getItem('token'),

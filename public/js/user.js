@@ -5,6 +5,7 @@ const API_URL = 'http://localhost:3000/api/users';
 window.loadUsers = async function () {
     try {
         const response = await fetch(API_URL, {
+            credentials: "include",
             headers: { 'Authorization': localStorage.getItem('token') },
         });
 
@@ -47,6 +48,7 @@ document.getElementById('addUserForm').addEventListener('submit', async (event) 
     try {
         const response = await fetch(`${API_URL}/add`, {
             method: 'POST',
+            credentials: "include",
             headers: {
                 'Content-Type': 'application/json',
                 'Authorization': localStorage.getItem('token'),
@@ -69,6 +71,7 @@ window.deleteUser = async function (userId) {
         try {
             const response = await fetch(`${API_URL}/${userId}`, {
                 method: 'DELETE',
+                credentials: "include",
                 headers: { 'Authorization': localStorage.getItem('token') },
             });
 
@@ -116,6 +119,7 @@ window.showEditForm = function (userId, name, firstname, email) {
         try {
             const response = await fetch(`${API_URL}/${userId}`, {
                 method: 'PATCH',
+                credentials: "include",
                 headers: {
                     'Content-Type': 'application/json',
                     'Authorization': localStorage.getItem('token'),

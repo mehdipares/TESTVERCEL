@@ -16,6 +16,7 @@ window.loadReservations = async function () {
         }
 
         const response = await fetch(API_URL, {
+            credentials: "include",
             headers: {
                 "Authorization": token,
                 "Content-Type": "application/json"
@@ -112,6 +113,7 @@ window.editReservation = async function (event, reservationId) {
     try {
         const response = await fetch(`${API_URL}/${reservationId}`, {
             method: "PUT",
+            credentials: "include",
             headers: {
                 "Content-Type": "application/json",
                 "Authorization": localStorage.getItem("token"),
@@ -136,6 +138,7 @@ window.deleteReservation = async function (reservationId) {
         try {
             const response = await fetch(`${API_URL}/${reservationId}`, {
                 method: "DELETE",
+                credentials: "include",
                 headers: {
                     "Authorization": localStorage.getItem("token"),
                 },
@@ -168,6 +171,7 @@ document.getElementById("addReservationForm").addEventListener("submit", async f
     try {
         const response = await fetch(API_URL, {
             method: "POST",
+            credentials: "include",
             headers: {
                 "Content-Type": "application/json",
                 "Authorization": localStorage.getItem("token"),
